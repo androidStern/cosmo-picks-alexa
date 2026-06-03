@@ -1,0 +1,9 @@
+Selected mascot: Rive community file "Robot - expressions" by deborah.n.oliveira.
+- Source: https://rive.app/community/files/18720-35184-robot-expressions/
+- Local runtime asset: public/assets/rive/robot-expressions.riv
+- Artboard: Artboard
+- State machine: State Machine 1
+- Runtime-exposed inputs: IsTracking (boolean), Seasonal (number), Expressions (number). Current app maps mood states onto Expressions values: 1 smiling/default, 2 happy, 3 sad, 4 scared, 5 surprised.
+- License shown on Rive page: CC BY 4.0. Keep visible attribution.
+
+Posters are self-hosted from TMDB static image URLs in public/assets/posters; keep TMDB attribution in footer.

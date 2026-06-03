@@ -7,3 +7,7 @@ Selected mascot: Rive community file "Robot - expressions" by deborah.n.oliveira
 - License shown on Rive page: CC BY 4.0. Keep visible attribution.
 
 Posters are self-hosted from TMDB static image URLs in public/assets/posters; keep TMDB attribution in footer.
+
+Current UX direction: keep the opening viewport as a single Cosmo scene, not a list page. Flow is typed speech bubble -> primary vibe chips (Big, Cozy, Unhinged, Funny) -> follow-up chips -> one poster reveal with title, short line, description, watch link, and "pick again". Posters must use contain sizing and every reveal path should keep the watch button visible on a 393x852 mobile viewport.
+
+Deployment target: https://androidstern.github.io/cosmo-picks-alexa/ via `npm run build` then `npx gh-pages -d dist`.

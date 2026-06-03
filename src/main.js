@@ -18,12 +18,12 @@ const picks = [
     type: 'movie',
     year: '2026',
     mood: 'space',
-    moodLabel: 'Space epic',
+    moodLabel: 'Wide awake & curious',
     poster: assetPath('/assets/posters/project-hail-mary.jpg'),
     description:
       'A lone astronaut wakes up light-years from home with one impossible job: save Earth, preferably with help from the universe’s least expected friend.',
     cosmo:
-      'Alexa, this is Andrew’s “go big, feel hopeful, maybe stare at the ceiling after” pick.',
+      'Tiny human. Huge sky. Secretly sweet. Start here if you want your brain lit up and your heart warmed.',
     service: 'Prime Video',
     availability: 'Rent or buy',
     watchUrl:
@@ -37,12 +37,12 @@ const picks = [
     type: 'series',
     year: '2026',
     mood: 'quest',
-    moodLabel: 'Cozy quest',
+    moodLabel: 'Soft and storybook',
     poster: assetPath('/assets/posters/knight-seven-kingdoms.jpg'),
     description:
       'A smaller, warmer Westeros story about Dunk and Egg: earnest knights, weird politics, and the kind of fantasy that feels like a fireside tale.',
     cosmo:
-      'Cosmo files this under “comfort fantasy, but with enough sword trouble to count.”',
+      'A kind knight, a sharp little squire, and a corner of Westeros that feels like a storybook with boots on.',
     service: 'HBO Max',
     availability: 'Stream',
     watchUrl: 'https://www.max.com/search?q=A%20Knight%20of%20the%20Seven%20Kingdoms',
@@ -61,7 +61,7 @@ const picks = [
     description:
       'A new pressure cooker of resentment, status games, and terrible choices from people who should absolutely know better.',
     cosmo:
-      'Andrew says this is for when you want everyone on screen to make it worse, stylishly.',
+      'For when you want beautiful people making terrible choices, and somehow every choice gets worse.',
     service: 'Netflix',
     availability: 'Stream',
     watchUrl: 'https://www.netflix.com/search?q=Beef',
@@ -74,12 +74,12 @@ const picks = [
     type: 'movie',
     year: '2018',
     mood: 'laugh',
-    moodLabel: 'Sharp comedy',
+    moodLabel: 'In the mood to laugh',
     poster: assetPath('/assets/posters/game-night.jpg'),
     description:
       'A murder-mystery party goes violently sideways. Tight, fast, and much funnier than it has any right to be.',
     cosmo:
-      'Cosmo’s official analysis: easy win, excellent pace, very low homework required.',
+      'Low commitment, high reward. Fast jokes, weird turns, and exactly the right amount of chaos.',
     service: 'Hulu',
     availability: 'Stream',
     watchUrl: 'https://www.hulu.com/movie/game-night-54935c48-6171-46a2-ae89-773fbe711ba6',
@@ -92,12 +92,12 @@ const picks = [
     type: 'series',
     year: '2025',
     mood: 'secrets',
-    moodLabel: 'Messy neighbors',
+    moodLabel: 'A little dangerous',
     poster: assetPath('/assets/posters/your-friends-neighbors.jpg'),
     description:
       'Jon Hamm plays a fallen finance guy stealing from rich neighbors and discovering every secret is worse than the last.',
     cosmo:
-      'This is the “suburban crime with beautiful houses and awful decisions” lane.',
+      'Glossy houses, bad secrets, Jon Hamm in trouble. Polite on the outside, dangerous underneath.',
     service: 'Apple TV+',
     availability: 'Stream',
     watchUrl:
@@ -110,32 +110,32 @@ const picks = [
 const moods = [
   {
     id: 'space',
-    label: 'Space epic',
-    detail: 'Awe, stakes, hope',
+    label: 'Wide awake & curious',
+    detail: 'You want your brain to light up.',
     pickId: 'project-hail-mary',
   },
   {
     id: 'quest',
-    label: 'Cozy quest',
-    detail: 'Fantasy without homework',
+    label: 'Soft and storybook',
+    detail: 'A gentle quest with a big heart.',
     pickId: 'knight-seven-kingdoms',
   },
   {
     id: 'chaos',
     label: 'Beautiful chaos',
-    detail: 'Bad choices, great cast',
+    detail: 'Bad choices, great cast.',
     pickId: 'beef-season-2',
   },
   {
     id: 'laugh',
-    label: 'Sharp comedy',
-    detail: 'Fast, clever, easy',
+    label: 'In the mood to laugh',
+    detail: 'Fast, clever, low homework.',
     pickId: 'game-night',
   },
   {
     id: 'secrets',
-    label: 'Messy neighbors',
-    detail: 'Rich people behaving badly',
+    label: 'A little dangerous',
+    detail: 'Pretty houses, ugly secrets.',
     pickId: 'your-friends-neighbors',
   },
 ];
@@ -149,10 +149,10 @@ const app = document.querySelector('#app');
 app.innerHTML = `
   <section class="hero" aria-labelledby="page-title">
     <div class="hero-copy">
-      <p class="eyebrow">A transmission from Andrew</p>
-      <h1 id="page-title">Alexa, Cosmo brought picks.</h1>
+      <p class="eyebrow">A little something from Andrew</p>
+      <h1 id="page-title">Hi Alexa. I saved these for you.</h1>
       <p class="intro">
-        Andrew loaded five options. Cosmo’s only job is to make tonight’s choice feel less like scrolling and more like a tiny briefing.
+        Andrew gave me five things he thinks you might love. Tell me what kind of night you are having, and I will point you toward one.
       </p>
     </div>
 
@@ -168,15 +168,15 @@ app.innerHTML = `
         />
       </div>
       <div class="speech" id="cosmo-speech">
-        Hi Alexa. Pick a mood and I’ll run Andrew’s recommendation protocol.
+        Beep. Hi. I am Cosmo. Pick a mood, and I will find the one that feels right tonight.
       </div>
     </div>
   </section>
 
   <section class="mood-section" aria-labelledby="mood-title">
     <div class="section-heading">
-      <p class="eyebrow">Mood selector</p>
-      <h2 id="mood-title">What kind of night is this?</h2>
+      <p class="eyebrow">First, the important question</p>
+      <h2 id="mood-title">Where is your heart tonight?</h2>
     </div>
     <div class="mood-grid" role="list">
       ${moods
@@ -194,7 +194,7 @@ app.innerHTML = `
 
   <section class="spotlight" aria-live="polite" aria-labelledby="spotlight-title">
     <div class="spotlight-copy">
-      <p class="eyebrow">Cosmo recommends</p>
+      <p class="eyebrow">For tonight</p>
       <h2 id="spotlight-title"></h2>
       <p id="spotlight-text"></p>
       <a class="watch-primary" id="spotlight-link" target="_blank" rel="noreferrer"></a>
@@ -204,8 +204,8 @@ app.innerHTML = `
 
   <section class="pick-list" aria-labelledby="all-picks-title">
     <div class="section-heading">
-      <p class="eyebrow">Andrew’s full list</p>
-      <h2 id="all-picks-title">All five transmissions</h2>
+      <p class="eyebrow">The full little shelf</p>
+      <h2 id="all-picks-title">All five picks</h2>
     </div>
     <div class="cards">
       ${picks.map(renderPickCard).join('')}
@@ -213,7 +213,7 @@ app.innerHTML = `
   </section>
 
   <footer class="credits">
-    <p>Made for Alexa by Andrew.</p>
+    <p>Made just for you, Alexa, by Andrew. Cosmo handled delivery.</p>
     <p>
       Cosmo animation adapted from
       <a href="https://rive.app/community/files/18720-35184-robot-expressions/" target="_blank" rel="noreferrer">Robot - expressions</a>
@@ -239,7 +239,7 @@ function renderPickCard(pick) {
             ${pick.availability} on ${pick.service}
           </a>
           <a class="secondary-link" href="${pick.backupUrl}" target="_blank" rel="noreferrer">
-            Backup link
+            More ways to watch
           </a>
         </div>
       </div>
@@ -326,7 +326,7 @@ function fireExpression(name) {
   }
 }
 
-function setActivePick(pickId, { scroll = false } = {}) {
+function setActivePick(pickId, { scroll = false, announce = true } = {}) {
   const pick = picks.find((item) => item.id === pickId) ?? picks[0];
   activePickId = pick.id;
 
@@ -339,8 +339,10 @@ function setActivePick(pickId, { scroll = false } = {}) {
   spotlightPoster.src = pick.poster;
   spotlightPoster.alt = `${pick.title} poster`;
 
-  document.querySelector('#cosmo-speech').textContent =
-    `I ran the protocol. Tonight’s strongest signal is ${pick.title}.`;
+  if (announce) {
+    document.querySelector('#cosmo-speech').textContent =
+      `I found it. Tonight feels like ${pick.title}.`;
+  }
 
   document.querySelectorAll('.mood-button').forEach((button) => {
     const mood = moods.find((item) => item.id === button.dataset.mood);
@@ -368,7 +370,7 @@ document.querySelectorAll('.mood-button').forEach((button) => {
     if (!mood) return;
 
     document.body.classList.add('is-thinking');
-    document.querySelector('#cosmo-speech').textContent = 'Scanning Andrew’s list. Filtering for mood, snacks, and emotional risk.';
+    document.querySelector('#cosmo-speech').textContent = 'Hmm. Let me look through Andrew’s shelf.';
     fireExpression('Surprised button');
 
     window.setTimeout(() => {
@@ -392,5 +394,5 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll('.pick-card, .spotlight').forEach((element) => observer.observe(element));
 
-setActivePick(activePickId);
+setActivePick(activePickId, { announce: false });
 initRive();

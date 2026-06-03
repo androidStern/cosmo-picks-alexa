@@ -8,6 +8,8 @@ Selected mascot: Rive community file "Robot - expressions" by deborah.n.oliveira
 
 Posters are self-hosted from TMDB static image URLs in public/assets/posters; keep TMDB attribution in footer.
 
-Current UX direction: keep the opening viewport as a single Cosmo scene, not a list page. Flow is typed speech bubble -> primary vibe chips (Big, Cozy, Unhinged, Funny) -> follow-up chips -> one poster reveal with title, short line, description, watch link, and "pick again". Posters must use contain sizing and every reveal path should keep the watch button visible on a 393x852 mobile viewport.
+Current UX direction: keep the opening viewport as a single Cosmo scene, not a list page. Flow is typed speech bubble -> primary vibe chips (Big, Cozy, Unhinged, Funny) -> follow-up chips -> one poster reveal with title, short line, description, watch link, and "pick again". Typing should stay slow enough to read, with pauses between bubbles. Posters must use contain sizing and every reveal path should keep the watch button visible on a 393x852 mobile viewport.
+
+There is a bottom "JUST SHOW ME THE LIST" escape hatch during choice states. It reveals a full list section with all five posters, descriptions, and watch links; keep it hidden by default.
 
 Deployment target: https://androidstern.github.io/cosmo-picks-alexa/ via `npm run build` then `npx gh-pages -d dist`.

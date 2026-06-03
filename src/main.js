@@ -4,6 +4,9 @@ import './styles.css';
 const RIVE_STATE_MACHINE = 'State Machine 1';
 const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const TYPE_SPEED = 46;
+const SHORT_PAUSE = 620;
+const READ_PAUSE = 1120;
 
 const expressionValues = {
   smile: 1,
@@ -159,6 +162,20 @@ app.innerHTML = `
           <button class="again-button" id="again-button" type="button">pick again</button>
         </div>
       </article>
+
+      <button class="list-toggle" id="list-toggle" type="button" hidden>
+        JUST SHOW ME THE LIST
+      </button>
+    </section>
+
+    <section class="list-panel" id="list-panel" aria-labelledby="list-title" hidden>
+      <div class="list-header">
+        <h2 id="list-title">The list</h2>
+        <button class="list-close" id="list-close" type="button">back to Cosmo</button>
+      </div>
+      <div class="list-items">
+        ${picks.map(renderListItem).join('')}
+      </div>
     </section>
 
     <footer class="credits">
@@ -172,12 +189,29 @@ app.innerHTML = `
   </main>
 `;
 
+function renderListItem(pick) {
+  return `
+    <article class="list-item">
+      <img class="list-poster" src="${pick.poster}" alt="${pick.title} poster" width="780" height="1170" loading="lazy" />
+      <div class="list-copy">
+        <h3>${pick.title}</h3>
+        <p class="list-line">${pick.line}</p>
+        <p class="list-description">${pick.description}</p>
+        <a class="list-watch" href="${pick.watchUrl}" target="_blank" rel="noreferrer">${pick.watchLabel}</a>
+      </div>
+    </article>
+  `;
+}
+
 const scene = document.querySelector('#scene');
 const speechBubble = document.querySelector('#speech-bubble');
 const speechText = document.querySelector('#speech-text');
 const choiceDock = document.querySelector('#choice-dock');
 const recommendation = document.querySelector('#recommendation');
 const againButton = document.querySelector('#again-button');
+const listToggle = document.querySelector('#list-toggle');
+const listPanel = document.querySelector('#list-panel');
+const listClose = document.querySelector('#list-close');
 
 function delay(ms) {
   return new Promise((resolve) => {
@@ -189,7 +223,7 @@ function findPick(pickId) {
   return picks.find((pick) => pick.id === pickId) ?? picks[0];
 }
 
-function typeBubble(text, { speed = 24 } = {}) {
+function typeBubble(text, { speed = TYPE_SPEED } = {}) {
   const runId = ++typingRun;
   const interval = prefersReducedMotion.matches ? 0 : speed;
 
@@ -243,11 +277,13 @@ function renderChoices(nextChoices) {
   choiceDock.hidden = false;
   window.requestAnimationFrame(() => {
     choiceDock.classList.add('is-visible');
+    showListToggle();
   });
 }
 
 function hideChoices() {
   choiceDock.classList.remove('is-visible');
+  hideListToggle();
   activeChoices = [];
   window.setTimeout(() => {
     if (!activeChoices.length) {
@@ -263,6 +299,22 @@ function hideRecommendation() {
   scene.classList.remove('has-recommendation');
 }
 
+function showListToggle() {
+  listToggle.hidden = false;
+  window.requestAnimationFrame(() => {
+    listToggle.classList.add('is-visible');
+  });
+}
+
+function hideListToggle() {
+  listToggle.classList.remove('is-visible');
+  window.setTimeout(() => {
+    if (!activeChoices.length) {
+      listToggle.hidden = true;
+    }
+  }, prefersReducedMotion.matches ? 0 : 180);
+}
+
 async function startIntro({ quick = false } = {}) {
   isLocked = true;
   hideChoices();
@@ -270,16 +322,17 @@ async function startIntro({ quick = false } = {}) {
   setExpression('smile');
 
   if (!quick) {
-    await delay(420);
+    await delay(560);
     await typeBubble('Hey Alexa.');
-    await delay(360);
+    await delay(SHORT_PAUSE);
     await typeBubble("I'm Cosmo, Andrew's robo-sidekick.");
-    await delay(430);
+    await delay(READ_PAUSE);
     await typeBubble('He sent five picks. I can narrow it down.');
-    await delay(360);
+    await delay(READ_PAUSE);
   }
 
   await typeBubble('Pick a vibe.');
+  await delay(SHORT_PAUSE);
   renderChoices(choices);
   isLocked = false;
 }
@@ -289,8 +342,9 @@ async function choosePrimary(choice) {
   hideRecommendation();
   hideChoices();
   setExpression(choice.expression);
-  await delay(170);
-  await typeBubble(choice.prompt, { speed: 22 });
+  await delay(280);
+  await typeBubble(choice.prompt, { speed: 42 });
+  await delay(SHORT_PAUSE);
   renderChoices(choice.options);
   isLocked = false;
 }
@@ -301,8 +355,9 @@ async function revealPick(pickId) {
 
   const pick = findPick(pickId);
   setExpression(pick.expression);
-  await delay(160);
+  await delay(280);
   await typeBubble('Found it.');
+  await delay(SHORT_PAUSE);
 
   document.querySelector('#pick-poster').src = pick.poster;
   document.querySelector('#pick-poster').alt = `${pick.title} poster`;
@@ -319,6 +374,27 @@ async function revealPick(pickId) {
     window.setTimeout(settleRecommendation, prefersReducedMotion.matches ? 0 : 260);
   });
   isLocked = false;
+}
+
+function showList() {
+  if (isLocked) {
+    return;
+  }
+
+  listPanel.hidden = false;
+  setExpression('happy');
+  listPanel.scrollIntoView({
+    behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+    block: 'start',
+  });
+}
+
+function hideList() {
+  listPanel.hidden = true;
+  scene.scrollIntoView({
+    behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+    block: 'start',
+  });
 }
 
 function settleRecommendation() {
@@ -424,6 +500,9 @@ againButton.addEventListener('click', () => {
     startIntro({ quick: true });
   }
 });
+
+listToggle.addEventListener('click', showList);
+listClose.addEventListener('click', hideList);
 
 initRive();
 window.requestAnimationFrame(() => {
